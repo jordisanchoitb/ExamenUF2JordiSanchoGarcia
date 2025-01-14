@@ -25,8 +25,7 @@ public class CanonRotation : MonoBehaviour
         //PISTA: mireu TOTES les variables i feu-les servir
 
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(mousePos);
-        var direction = mousePos - ShootPoint.transform.position;  //vector entre el click i la bala
+        var direction = (mousePos - ShootPoint.transform.position); //vector entre el click i la bala
         var angle = (Mathf.Atan2(direction.y, direction.x) * 180f / Mathf.PI + offset);
         if (angle > _maxRotation.z) {
             angle = _maxRotation.z;
@@ -39,18 +38,16 @@ public class CanonRotation : MonoBehaviour
         {
             //ProjectileSpeed += //cada segon s'ha de fer 4 unitats m�s gran
             ProjectileSpeed += 4 * Time.deltaTime;
-            
         }
         if(Input.GetMouseButtonUp(0))
         {
             //var projectile = Instantiate(Bullet, //On s'instancia?
             var projectile = Instantiate(Bullet, transform.position, Quaternion.identity);
             //projectile.GetComponent<Rigidbody2D>().velocity = //quina velocitat ha de tenir la bala? 
-            projectile.GetComponent<Rigidbody2D>().velocity = direction.normalized * ProjectileSpeed * Time.deltaTime; 
+            projectile.GetComponent<Rigidbody2D>().velocity = new Vector2(direction.x, direction.y).normalized * ProjectileSpeed; 
             ProjectileSpeed = 0f; //reset despr�s del tret
         }
         CalculateBarScale();
-
     }
     public void CalculateBarScale()
     {
